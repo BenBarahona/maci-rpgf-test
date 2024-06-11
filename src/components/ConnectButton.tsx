@@ -15,6 +15,11 @@ import { useLayoutOptions } from "~/layouts/BaseLayout";
 import { useMaci } from "~/contexts/Maci";
 import type { Address } from "viem";
 import { config } from "~/config";
+import { zuAuthPopup, zAuthPopup } from "@pcd/zuauth";
+import { authenticate } from "@pcd/zuauth/server";
+//import { ZkEdDSAEventTicketPCDPackage } from "@pcd/zk-eddsa-event-ticket-pcd";
+import { ZKEdDSAEventTicketPCDPackage } from "@pcd/zk-eddsa-event-ticket-pcd";
+import { generateWitness } from "~/utils/pcd";
 
 const useBreakpoint = createBreakpoint({ XL: 1280, L: 768, S: 350 });
 
@@ -103,10 +108,53 @@ const ConnectedDetails = ({
   const { showBallot } = useLayoutOptions();
 
   const onError = useCallback(() => toast.error("Signup error"), []);
-  const handleSignup = useCallback(
+  
+  const signupOnMaci = useCallback(
     () => onSignup(onError),
     [onSignup, onError],
   );
+
+  const watermark = ""
+  const config = [
+    {
+      "pcdType": "eddsa-ticket-pcd",
+      "publicKey": [
+        "1ebfb986fbac5113f8e2c72286fe9362f8e7d211dbc68227a468d7b919e75003",
+        "10ec38f11baacad5535525bbe8e343074a483c051aa1616266f3b1df3fb7d204"
+      ],
+      "productId": "1bc3f3f3-e696-55bd-bc28-79271de3bbb3",
+      "eventId": "d2ce5bb2-99a3-5a61-b7e6-1cd46d2ee00d",
+      "eventName": "PizzaParty",
+      "productName": "GA"
+    }
+  ]
+
+  const handleSignup = async () => { 
+  const result = await zuAuthPopup({
+    fieldsToReveal: {
+          revealAttendeeEmail: false,
+          revealAttendeeName: false,
+          revealEventId: true
+        },
+        watermark,
+        config
+      })
+
+      console.log("Zupass Result: ", result)
+      if(result.type === "pcd") {
+          try {
+            const jsonPCD = JSON.parse(result.pcdStr)
+            const pcd = await ZKEdDSAEventTicketPCDPackage.deserialize(jsonPCD.pcd)
+            const proof = generateWitness(pcd)
+
+            console.log(proof)
+            signupOnMaci()
+            
+          } catch (e) {
+            console.log("Failed", e)
+          } 
+      }
+  }
 
   return (
     <div>
