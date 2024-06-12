@@ -115,6 +115,45 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     ],
   );
 
+  const onZupassSignup = useCallback(
+    async (onError: () => void, proof: `0x${string}`) => {
+      if (!data?.publicKey || !signer || !proof) {
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const { stateIndex: index, hash } = await signup({
+          maciPubKey: data.publicKey,
+          maciAddress: config.maciAddress!,
+          sgDataArg: proof,
+          signer,
+        });
+
+        console.log(`Signup transaction hash: ${hash}`);
+
+        if (index) {
+          setIsRegistered(true);
+          setStateIndex(index);
+        }
+      } catch (e) {
+        onError();
+        console.error("error happened:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [
+      attestationId,
+      data?.publicKey,
+      address,
+      signer,
+      setIsRegistered,
+      setStateIndex,
+      setIsLoading,
+    ],
+  );
+
   const onVote = useCallback(
     async (
       votes: IVoteArgs[],
@@ -254,6 +293,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     pollData,
     tallyData,
     onSignup,
+    onZupassSignup,
     onVote,
   };
 

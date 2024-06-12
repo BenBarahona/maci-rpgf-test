@@ -13,11 +13,10 @@ import { Chip } from "./ui/Chip";
 import { useBallot } from "~/features/ballot/hooks/useBallot";
 import { useLayoutOptions } from "~/layouts/BaseLayout";
 import { useMaci } from "~/contexts/Maci";
+import { ethers } from "ethers";
 import type { Address } from "viem";
 import { config } from "~/config";
-import { zuAuthPopup, zAuthPopup } from "@pcd/zuauth";
-import { authenticate } from "@pcd/zuauth/server";
-//import { ZkEdDSAEventTicketPCDPackage } from "@pcd/zk-eddsa-event-ticket-pcd";
+import { zuAuthPopup } from "@pcd/zuauth";
 import { ZKEdDSAEventTicketPCDPackage } from "@pcd/zk-eddsa-event-ticket-pcd";
 import { generateWitness } from "~/utils/pcd";
 
@@ -103,17 +102,15 @@ const ConnectedDetails = ({
 }) => {
   const { data: ballot } = useBallot();
   const ballotSize = (ballot?.votes ?? []).length;
-  const { isLoading, isRegistered, isEligibleToVote, onSignup } = useMaci();
+  const { isLoading, isRegistered, isEligibleToVote, onZupassSignup } = useMaci();
 
   const { showBallot } = useLayoutOptions();
 
   const onError = useCallback(() => toast.error("Signup error"), []);
-  
-  const signupOnMaci = useCallback(
-    () => onSignup(onError),
-    [onSignup, onError],
-  );
 
+  //TODO: add user address as watermark
+  //TODO: add this eventId and eventName as env. variable
+  //TODO: Allow any user to see the signup button and remove the attestation requirement
   const watermark = ""
   const config = [
     {
@@ -122,23 +119,20 @@ const ConnectedDetails = ({
         "1ebfb986fbac5113f8e2c72286fe9362f8e7d211dbc68227a468d7b919e75003",
         "10ec38f11baacad5535525bbe8e343074a483c051aa1616266f3b1df3fb7d204"
       ],
-      "productId": "1bc3f3f3-e696-55bd-bc28-79271de3bbb3",
       "eventId": "d2ce5bb2-99a3-5a61-b7e6-1cd46d2ee00d",
       "eventName": "PizzaParty",
-      "productName": "GA"
     }
   ]
 
-  const handleSignup = async () => { 
+  const handleSignup = async () => {
   const result = await zuAuthPopup({
     fieldsToReveal: {
-          revealAttendeeEmail: false,
-          revealAttendeeName: false,
-          revealEventId: true
+        revealTicketId: true,
         },
         watermark,
         config
       })
+      console.log(watermark);
 
       console.log("Zupass Result: ", result)
       if(result.type === "pcd") {
@@ -146,13 +140,15 @@ const ConnectedDetails = ({
             const jsonPCD = JSON.parse(result.pcdStr)
             const pcd = await ZKEdDSAEventTicketPCDPackage.deserialize(jsonPCD.pcd)
             const proof = generateWitness(pcd)
-
-            console.log(proof)
-            signupOnMaci()
-            
+            const encoder = ethers.AbiCoder.defaultAbiCoder();
+            const data = encoder.encode(
+                ["uint256[2]", "uint256[2][2]", "uint256[2]", "uint256[38]"],
+                [proof._pA, proof._pB, proof._pC, proof._pubSignals],
+            ) as `0x${string}`;
+            await onZupassSignup(onError, data)
           } catch (e) {
             console.log("Failed", e)
-          } 
+          }
       }
   }
 
