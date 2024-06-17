@@ -21,14 +21,6 @@ export const env = createEnv({
       // VERCEL_URL doesn't include `https` so it cant be validated as a URL
       process.env.VERCEL_URL ? z.string() : z.string().url(),
     ),
-
-    POSTGRES_URL: z.string().url(),
-    POSTGRES_PRISMA_URL: z.string().url(),
-    POSTGRES_URL_NON_POOLING: z.string().url(),
-    POSTGRES_USER: z.string(),
-    POSTGRES_HOST: z.string(),
-    POSTGRES_PASSWORD: z.string(),
-    POSTGRES_DATABASE: z.string(),
   },
 
   /**
@@ -84,11 +76,6 @@ export const env = createEnv({
       .default(
         "0xac4c92fc5c7babed88f78a917cdbcdc1c496a8f4ab2d5b2ec29402736b2cf929",
       ),
-    NEXT_PUBLIC_LISTS_SCHEMA: z
-      .string()
-      .default(
-        "0x3e3e2172aebb902cf7aa6e1820809c5b469af139e7a4265442b1c22b97c6b2a5",
-      ),
 
     NEXT_PUBLIC_EAS_CONTRACT_ADDRESS: z
       .string()
@@ -110,13 +97,9 @@ export const env = createEnv({
 
     NEXT_PUBLIC_MACI_ADDRESS: z.string().startsWith("0x"),
     NEXT_PUBLIC_MACI_START_BLOCK: z.string().optional(),
+    NEXT_PUBLIC_MACI_SUBGRAPH_URL: z.string().url().optional(),
 
     NEXT_PUBLIC_TALLY_URL: z.string().url(),
-    NEXT_PUBLIC_ALLO2_ADDRESS: z.string().startsWith("0x"),
-    NEXT_PUBLIC_STRATEGY_ADDRESS: z.string().startsWith("0x").default(""),
-    NEXT_PUBLIC_TOKEN_ADDRESS: z
-      .string()
-      .default("0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"),
   },
 
   /**
@@ -127,13 +110,6 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-    POSTGRES_URL: process.env.POSTGRES_URL,
-    POSTGRES_PRISMA_URL: process.env.POSTGRES_PRISMA_URL,
-    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
-    POSTGRES_USER: process.env.POSTGRES_USER,
-    POSTGRES_HOST: process.env.POSTGRES_HOST,
-    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-    POSTGRES_DATABASE: process.env.POSTGRES_DATABASE,
 
     NEXT_PUBLIC_CHAIN_NAME: process.env.NEXT_PUBLIC_CHAIN_NAME,
     NEXT_PUBLIC_SIGN_STATEMENT: process.env.NEXT_PUBLIC_SIGN_STATEMENT,
@@ -152,7 +128,6 @@ export const env = createEnv({
     NEXT_PUBLIC_BADGEHOLDER_ATTESTER:
       process.env.NEXT_PUBLIC_BADGEHOLDER_ATTESTER,
     NEXT_PUBLIC_PROFILE_SCHEMA: process.env.NEXT_PUBLIC_PROFILE_SCHEMA,
-    NEXT_PUBLIC_LISTS_SCHEMA: process.env.NEXT_PUBLIC_LISTS_SCHEMA,
 
     NEXT_PUBLIC_EAS_CONTRACT_ADDRESS:
       process.env.NEXT_PUBLIC_EAS_CONTRACT_ADDRESS,
@@ -170,11 +145,9 @@ export const env = createEnv({
 
     NEXT_PUBLIC_MACI_ADDRESS: process.env.NEXT_PUBLIC_MACI_ADDRESS,
     NEXT_PUBLIC_MACI_START_BLOCK: process.env.NEXT_PUBLIC_MACI_START_BLOCK,
+    NEXT_PUBLIC_MACI_SUBGRAPH_URL: process.env.NEXT_PUBLIC_MACI_SUBGRAPH_URL,
 
     NEXT_PUBLIC_TALLY_URL: process.env.NEXT_PUBLIC_TALLY_URL,
-    NEXT_PUBLIC_ALLO2_ADDRESS: process.env.NEXT_PUBLIC_ALLO2_ADDRESS,
-    NEXT_PUBLIC_STRATEGY_ADDRESS: process.env.NEXT_PUBLIC_STRATEGY_ADDRESS,
-    NEXT_PUBLIC_TOKEN_ADDRESS: process.env.NEXT_PUBLIC_TOKEN_ADDRESS,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

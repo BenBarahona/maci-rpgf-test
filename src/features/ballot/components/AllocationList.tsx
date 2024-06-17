@@ -16,11 +16,11 @@ import { AllocationInput } from "./AllocationInput";
 import { IconButton } from "~/components/ui/Button";
 import { type Vote } from "../types";
 import { useProjectById } from "~/features/projects/hooks/useProjects";
-import { SearchProjects } from "~/features/lists/components/SearchProjects";
 import { ProjectAvatar } from "~/features/projects/components/ProjectAvatar";
 import { FormControl, Input } from "~/components/ui/Form";
-import { usePoolToken } from "~/features/distribute/hooks/useAlloPool";
 import { useMaci } from "~/contexts/Maci";
+import { useBallot } from "~/contexts/Ballot";
+import { config } from "~/config";
 
 const AllocationListWrapper = createComponent(
   "div",
@@ -28,8 +28,6 @@ const AllocationListWrapper = createComponent(
 );
 
 export const AllocationList = ({ votes }: { votes?: Vote[] }) => {
-  const token = usePoolToken();
-
   return (
     <AllocationListWrapper>
       <Table>
@@ -40,7 +38,7 @@ export const AllocationList = ({ votes }: { votes?: Vote[] }) => {
                 <ProjectAvatarWithName link id={project.projectId} />
               </Td>
               <Td className="whitespace-nowrap text-right">
-                {formatNumber(project.amount)} {token.data?.symbol}
+                {formatNumber(project.amount)} {config.tokenName}
               </Td>
             </Tr>
           ))}
@@ -49,83 +47,6 @@ export const AllocationList = ({ votes }: { votes?: Vote[] }) => {
     </AllocationListWrapper>
   );
 };
-
-export function AllocationFormWithSearch() {
-  const form = useFormContext<{ projects: Vote[] }>();
-
-  const { fields, append, remove } = useFieldArray({
-    name: "projects",
-    keyName: "key",
-    control: form.control,
-  });
-  const { initialVoiceCredits } = useMaci();
-
-  const { errors } = form.formState;
-
-  return (
-    <AllocationListWrapper>
-      <SearchProjects
-        addedProjects={fields}
-        onSelect={(projectId) => append({ projectId, amount: 0 })}
-      />
-      <Table>
-        <Tbody>
-          {fields.length ? (
-            fields.map((project, i) => {
-              const error = errors.projects?.[i]?.amount?.message;
-              return (
-                <Tr key={project.key}>
-                  <Td className={"w-full"}>
-                    <ProjectAvatarWithName id={project.projectId} />
-                    {error ? (
-                      <div className="text-xs text-error-600">{error}</div>
-                    ) : null}
-                  </Td>
-
-                  <Td>
-                    <AllocationInput
-                      tokenAddon
-                      name={`projects.${i}.amount`}
-                      votingMaxProject={initialVoiceCredits}
-                    />
-                  </Td>
-                  <Td>
-                    <IconButton
-                      tabIndex={-1}
-                      type="button"
-                      variant="outline"
-                      icon={Trash}
-                      onClick={() => {
-                        remove(i);
-                      }}
-                    />
-                  </Td>
-                </Tr>
-              );
-            })
-          ) : (
-            <Tr>
-              <Td
-                colSpan={3}
-                className="flex flex-1 items-center justify-center py-4"
-              >
-                <div className=" max-w-[360px] space-y-4">
-                  <h3 className="text-center text-lg font-bold">
-                    List is empty
-                  </h3>
-                  <p className="text-center text-sm text-gray-700">
-                    Search projects to add them to the list.
-                  </p>
-                </div>
-              </Td>
-            </Tr>
-          )}
-        </Tbody>
-      </Table>
-      <button type="submit" className="hidden" />
-    </AllocationListWrapper>
-  );
-}
 
 type AllocationFormProps = {
   renderHeader?: () => ReactNode;
@@ -138,18 +59,17 @@ type AllocationFormProps = {
   ) => ReactNode;
   disabled?: boolean;
   projectIsLink?: boolean;
-  onSave?: (v: { votes: Vote[] }) => void;
 };
 
-function AllocationFormWrapper({
+export function AllocationFormWrapper({
   disabled,
   projectIsLink,
   renderHeader,
   renderExtraColumn,
-  onSave,
 }: AllocationFormProps) {
   const form = useFormContext<{ votes: Vote[] }>();
-  const { initialVoiceCredits } = useMaci();
+  const { initialVoiceCredits, pollId } = useMaci();
+  const { addToBallot: onSave, removeFromBallot: onRemove } = useBallot();
 
   const { fields, remove } = useFieldArray({
     name: "votes",
@@ -178,8 +98,9 @@ function AllocationFormWrapper({
                   <AllocationInput
                     name={`votes.${idx}.amount`}
                     disabled={disabled}
+                    defaultValue={project.amount}
                     votingMaxProject={initialVoiceCredits}
-                    onBlur={() => onSave?.(form.getValues())}
+                    onBlur={() => onSave?.(form.getValues().votes, pollId)}
                   />
                 </Td>
                 <Td>
@@ -191,7 +112,7 @@ function AllocationFormWrapper({
                     disabled={disabled}
                     onClick={() => {
                       remove(idx);
-                      onSave?.(form.getValues());
+                      onRemove?.(project.projectId);
                     }}
                   />
                 </Td>
@@ -203,31 +124,7 @@ function AllocationFormWrapper({
     </AllocationListWrapper>
   );
 }
-export function AllocationForm({
-  list,
-  ...props
-}: { list?: Vote[] } & AllocationFormProps) {
-  const { initialVoiceCredits } = useMaci();
 
-  return (
-    <AllocationFormWrapper
-      {...props}
-      renderExtraColumn={({ project }) => {
-        const listAllocation =
-          list?.find((p) => p.projectId === project.projectId)?.amount ?? 0;
-
-        return listAllocation ? (
-          <AllocationInput
-            name="compareAmount"
-            defaultValue={listAllocation}
-            votingMaxProject={initialVoiceCredits}
-            disabled={true}
-          />
-        ) : null;
-      }}
-    />
-  );
-}
 export function DistributionForm(props: AllocationFormProps) {
   return (
     <AllocationFormWrapper

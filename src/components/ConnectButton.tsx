@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 import { Button } from "./ui/Button";
 import { Chip } from "./ui/Chip";
-import { useBallot } from "~/features/ballot/hooks/useBallot";
+import { useBallot } from "~/contexts/Ballot";
 import { useLayoutOptions } from "~/layouts/BaseLayout";
 import { useMaci } from "~/contexts/Maci";
 import { ethers } from "ethers";
@@ -111,7 +111,7 @@ const ConnectedDetails = ({
   //TODO: add user address as watermark
   //TODO: add this eventId and eventName as env. variable
   //TODO: Allow any user to see the signup button and remove the attestation requirement
-  const watermark = ""
+  const watermark = "0xF4FFaa5bF781903e7187Db65Ee9Bd82153b3F7C1"
   const config = [
     {
       "pcdType": "eddsa-ticket-pcd",
