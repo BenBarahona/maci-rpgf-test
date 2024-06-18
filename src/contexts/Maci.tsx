@@ -50,10 +50,13 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
   const [signatureMessage, setSignatureMessage] = useState<string>("");
 
   const { signMessageAsync } = useSignMessage();
+  //TODO: Aqui
   const user = api.maci.user.useQuery(
     { publicKey: maciPubKey ?? "" },
     { enabled: Boolean(maciPubKey && config.maciSubgraphUrl) },
   );
+
+  console.log("USER " + user)
 
   const attestations = api.voters.approvedAttestations.useQuery({
     address,
@@ -281,11 +284,10 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     }
 
     const [account] = user.data?.accounts.slice(-1) ?? [];
-    console.log("Here ", config.zupassAuth);
-    if(config.zupassAuth)
-      {
-
-      } else if (!config.maciSubgraphUrl) {
+    console.log("Here ", config.maciSubgraphUrl);
+    console.log("MACI " + maciPubKey)
+    console.log("Account " + user.data)
+    if (!config.maciSubgraphUrl) {
       isRegisteredUser({
         maciPubKey,
         maciAddress: config.maciAddress!,
@@ -301,6 +303,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
         )
         .catch(console.error);
     } else if (account) {
+      
       const { id, voiceCreditBalance } = account;
 
       setIsRegistered(true);

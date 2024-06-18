@@ -40,6 +40,7 @@ const UserQuery = `
 `;
 
 export async function fetchUser(publicKey: [bigint, bigint]) {
+  //console.log("FETCH ", publicKey)
   return fetch<{ user: User }>(config.maciSubgraphUrl, {
     method: "POST",
     body: JSON.stringify({
