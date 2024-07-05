@@ -57,20 +57,20 @@ function BallotOverview() {
   if (appState === EAppState.TALLYING)
     return (
       <div className="flex flex-col items-center gap-2 pt-8 ">
-        <BallotHeader>Voting has ended</BallotHeader>
-        <BallotSection title="Results are being tallied"></BallotSection>
+        <BallotHeader>La votación ha terminado</BallotHeader>
+        <BallotSection title="Se estan contando los resultados"></BallotSection>
       </div>
     );
 
   if (appState !== EAppState.VOTING)
     return (
       <div className="flex flex-col items-center gap-2 pt-8 ">
-        <BallotHeader>Voting hasn't started yet</BallotHeader>
+        <BallotHeader>Votación aún no comienza</BallotHeader>
         {appState === EAppState.REVIEWING ? (
-          <BallotSection title="Applications are being reviewed" />
+          <BallotSection title="Los proyectos están siendo evaluados" />
         ) : (
           <Button className="border-1" as={Link} href={"/applications/new"}>
-            Create application
+            Crear aplicación
           </Button>
         )}
       </div>
@@ -79,13 +79,13 @@ function BallotOverview() {
   return (
     <div className="space-y-6">
       <BallotHeader>Voting Round: {config.roundId}</BallotHeader>
-      <BallotSection title="Voting ends in:">
+      <BallotSection title="La votación termina en:">
         <VotingEndsIn />
       </BallotSection>
       {address && isRegistered && (
         <>
           <BallotHeader>Your ballot</BallotHeader>
-          <BallotSection title="Projects added:">
+          <BallotSection title="Proyectos agregados:">
             <div>
               <span className="text-gray-900 dark:text-gray-300">
                 {allocations.length}
@@ -124,17 +124,17 @@ function BallotOverview() {
           as={Link}
           href={`/ballot/confirmation`}
         >
-          View submitted ballot
+          Ver boleta enviada
         </Button>
       ) : canSubmit ? (
         <SubmitBallotButton disabled={sum > initialVoiceCredits} />
       ) : viewBallot ? (
         <Button className="w-full" variant="primary" as={Link} href={`/ballot`}>
-          View my ballot
+          Ver mi boleta
         </Button>
       ) : (
         <Button className={"w-full"} variant="primary" disabled>
-          No projects added yet
+          Aún no se han agregado proyectos
         </Button>
       )}
     </div>
@@ -173,20 +173,19 @@ const SubmitBallotButton = ({ disabled = false }) => {
 
   const messages = {
     signing: {
-      title: "Sign ballot",
+      title: "Firmar biketa",
       instructions:
-        "Confirm the transactions in your wallet to submit your  ballot.",
+        "Confirme las transacciones en su wallet para enviar su boleta.",
     },
     submitting: {
       title: "Submit ballot",
       instructions:
-        "Once you submit your ballot, you won’t be able to change it. If you are ready, go ahead and submit!",
+        "Una vez que envíe su boleta, no podrá cambiarla. Si estás listo, ¡adelante y envíalo!",
     },
     error: {
-      title: "Error submitting ballot",
+      title: "Error al enviar la boleta",
       instructions: (
         <Alert
-          variant="warning"
           title={(submit.error as { message?: string })?.message}
         >
           There was an error submitting the ballot.

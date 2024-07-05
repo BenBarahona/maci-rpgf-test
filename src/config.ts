@@ -70,6 +70,10 @@ export const impactCategories = {
     TECNOLOGIAS_EMERGENTES: { label: "Uso de tecnologias emergentes" },
     COLLECTIVE_GOVERNANCE: { label: "Salud" },
     ARTE_CREATIVIDAD: { label: "Arte y Creatividad" },
-    EDUCACION: { label: "Educacion" },
+    EDUCACION: { label: "Educación" },
     ANIMAL: { label: "Animales" },
+    MEDIO_AMBIENTE: { label: "Medio ambiente" },
+    SERVICIO_COMUNITARIO: { label: "Servicio Comunitario" },
+    EMPRENDIMIENTOS: { label: "Emprendimientos" },
+    OTROS: { label: "Otros" },
   } as const;

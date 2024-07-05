@@ -5,23 +5,23 @@ import { formatDate } from "~/utils/time";
 
 const steps = [
   {
-    label: "Registration",
+    label: "Registro",
     date: config.startsAt,
   },
   {
-    label: "Review & Approval",
+    label: "Revisión y aprobación",
     date: config.registrationEndsAt,
   },
   {
-    label: "Voting",
+    label: "Votación",
     date: config.reviewEndsAt,
   },
   {
-    label: "Tallying",
+    label: "Contando",
     date: undefined,
   },
   {
-    label: "Distribution",
+    label: "Distribución",
     date: undefined,
   },
 ];

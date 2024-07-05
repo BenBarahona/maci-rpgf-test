@@ -21,7 +21,7 @@ export const Layout = ({ children, ...props }: Props) => {
   const navLinks = [
     {
       href: "/projects",
-      children: "Projects",
+      children: "Proyectos",
     },
     {
       href: "/info",
