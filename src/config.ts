@@ -28,18 +28,10 @@ export const config = {
     wagmiChains[process.env.NEXT_PUBLIC_CHAIN_NAME as keyof typeof wagmiChains],
   maciAddress: process.env.NEXT_PUBLIC_MACI_ADDRESS,
   maciStartBlock: Number(process.env.NEXT_PUBLIC_MACI_START_BLOCK ?? 0),
+  maciSubgraphUrl: process.env.NEXT_PUBLIC_MACI_SUBGRAPH_URL ?? "",
   tallyUrl: process.env.NEXT_PUBLIC_TALLY_URL,
+  zupassAuth: true, //TODO: Read from env file
 };
-
-export const nativeToken = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
-export const allo = {
-  alloAddress: process.env.NEXT_PUBLIC_ALLO2_ADDRESS as `0x${string}`,
-  strategyAddress: process.env.NEXT_PUBLIC_STRATEGY_ADDRESS as `0x${string}`,
-  // eslint-disable-next-line
-  tokenAddress: (process.env.NEXT_PUBLIC_TOKEN_ADDRESS ||
-    nativeToken) as `0x${string}`,
-};
-export const isNativeToken = allo.tokenAddress === nativeToken;
 
 export const theme = {
   colorMode: "dark",
@@ -72,11 +64,12 @@ export const eas = {
 //   DEVELOPER_ECOSYSTEM: { label: "Developer Ecosystem" },
 //   END_USER_EXPERIENCE_AND_ADOPTION: { label: "End user UX" },
 // } as const;
-
 export const impactCategories = {
-  ADOPCION: { label: "Adopción de Ethereum, Blockchain / Web3" },
-  INNOVACION: { label: "Inovación" },
-  SALUD: { label: "Salud" },
-  ARTE_CREATIVIDAD: { label: "Arte y Creatividad" },
-  MEDIO_AMBIENTE: {label: "Medio AMbiente"}
-} as const;
+    ETHEREUM: { label: "Adopción Ethereum, Blockchain / Web3" },
+    INNOVACION: { label: "Innovacion" },
+    TECNOLOGIAS_EMERGENTES: { label: "Uso de tecnologias emergentes" },
+    COLLECTIVE_GOVERNANCE: { label: "Salud" },
+    ARTE_CREATIVIDAD: { label: "Arte y Creatividad" },
+    EDUCACION: { label: "Educacion" },
+    ANIMAL: { label: "Animales" },
+  } as const;

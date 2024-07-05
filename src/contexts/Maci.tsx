@@ -6,8 +6,8 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { useSession } from "next-auth/react";
-import { useAccount } from "wagmi";
+//import { useSession } from "next-auth/react";
+import { useAccount, useSignMessage } from "wagmi";
 import { isAfter } from "date-fns";
 import {
   signup,
@@ -16,26 +16,23 @@ import {
   type TallyData,
   type IGetPollData,
   getPoll,
+  genKeyPair,
 } from "maci-cli/sdk";
 
 import type { Attestation } from "~/utils/fetchAttestations";
 import { config } from "~/config";
 import { api } from "~/utils/api";
 import { useEthersSigner } from "~/hooks/useEthersSigner";
-import {
-  type IVoteArgs,
-  type MaciContextType,
-  type MaciProviderProps,
-} from "./types";
+import type { IVoteArgs, MaciContextType, MaciProviderProps } from "./types";
 
 export const MaciContext = createContext<MaciContextType | undefined>(
   undefined,
 );
 
 export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
-  const { data } = useSession();
+  
   const signer = useEthersSigner();
-  const { address, isConnected } = useAccount();
+  const { address, isConnected, isDisconnected } = useAccount();
 
   const [isRegistered, setIsRegistered] = useState<boolean>();
   const [stateIndex, setStateIndex] = useState<string>();
@@ -45,6 +42,20 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
   const [pollData, setPollData] = useState<IGetPollData>();
   const [tallyData, setTallyData] = useState<TallyData>();
 
+  const [maciPrivKey, setMaciPrivKey] = useState<string | undefined>();
+  const [maciPubKey, setMaciPubKey] = useState<string | undefined>();
+
+  const [signatureMessage, setSignatureMessage] = useState<string>("");
+
+  const { signMessageAsync } = useSignMessage();
+  //TODO: Aqui
+  const user = api.maci.user.useQuery(
+    { publicKey: maciPubKey ?? "" },
+    { enabled: Boolean(maciPubKey && config.maciSubgraphUrl) },
+  );
+
+  //console.log("USER ", user)
+
   const attestations = api.voters.approvedAttestations.useQuery({
     address,
   });
@@ -52,17 +63,44 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
   const attestationId = useMemo(() => {
     const values = attestations.data?.valueOf() as Attestation[] | undefined;
 
-    const attestation = values?.find((attestation) =>
-      config.admin === attestation.attester,
+    const attestation = values?.find(
+      (attestation) => config.admin === attestation.attester,
     );
 
     return attestation?.id;
   }, [attestations]);
 
-  const isEligibleToVote = useMemo(
-    () => Boolean(attestationId) && Boolean(data),
-    [attestationId, data],
-  );
+  // const isEligibleToVote = useMemo(
+  //   () => Boolean(attestationId) && Boolean(address),
+  //   [attestationId, address],
+  // );
+  const isEligibleToVote = true;
+
+  // on load get the key pair from local storage and set the signature message
+  useEffect(() => {
+    setSignatureMessage(`Generate MACI Key Pair at ${window.location.origin}`);
+    const storedMaciPrivKey = localStorage.getItem("maciPrivKey");
+    const storedMaciPubKey = localStorage.getItem("maciPubKey");
+
+    if (storedMaciPrivKey && storedMaciPubKey) {
+      setMaciPrivKey(storedMaciPrivKey);
+      setMaciPubKey(storedMaciPubKey);
+    }
+  }, [setMaciPrivKey, setMaciPubKey]);
+
+  const generateKeypair = useCallback(async () => {
+    // if we are not connected then do not generate the key pair
+    if (!address) {
+      return;
+    }
+
+    const signature = await signMessageAsync({ message: signatureMessage });
+    const userKeyPair = genKeyPair({ seed: BigInt(signature) });
+    localStorage.setItem("maciPrivKey", userKeyPair.privateKey);
+    localStorage.setItem("maciPubKey", userKeyPair.publicKey);
+    setMaciPrivKey(userKeyPair.privateKey);
+    setMaciPubKey(userKeyPair.publicKey);
+  }, [address, signMessageAsync, setMaciPrivKey, setMaciPubKey]);
 
   const votingEndsAt = useMemo(
     () =>
@@ -77,7 +115,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
 
   const onSignup = useCallback(
     async (onError: () => void) => {
-      if (!data?.publicKey || !signer || !attestationId) {
+      if (!signer || !maciPubKey || !attestationId) {
         return;
       }
 
@@ -85,7 +123,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
 
       try {
         const { stateIndex: index, hash } = await signup({
-          maciPubKey: data.publicKey,
+          maciPubKey,
           maciAddress: config.maciAddress!,
           sgDataArg: attestationId,
           signer,
@@ -106,7 +144,52 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     },
     [
       attestationId,
-      data?.publicKey,
+      maciPubKey,
+      address,
+      signer,
+      setIsRegistered,
+      setStateIndex,
+      setIsLoading,
+    ],
+  );
+
+  const onZupassSignup = useCallback(
+    async (onError: () => void, proof: `0x${string}`) => {
+      console.log("Address ", address);
+      console.log("MaciPubKey ", maciPubKey);
+      console.log("MaciAddress", config.maciAddress);
+
+      if (!maciPubKey || !signer || !proof) {
+        return;
+      }
+
+      setIsLoading(true);
+      var params = { maciPubKey, maciAddress: config.maciAddress, sgDataArg: proof }
+      console.log("About to sign up, params: ", params)
+      try {
+        const { stateIndex: index, hash } = await signup({
+          maciPubKey: maciPubKey ?? "",
+          maciAddress: config.maciAddress!,
+          sgDataArg: proof,
+          signer,
+        });
+
+        console.log(`Signup transaction hash: ${hash}`);
+
+        if (index) {
+          setIsRegistered(true);
+          setStateIndex(index);
+        }
+      } catch (e) {
+        onError();
+        console.error("error happened:", e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [
+      attestationId,
+      maciPubKey,
       address,
       signer,
       setIsRegistered,
@@ -121,7 +204,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
       onError: () => Promise<void>,
       onSuccess: () => Promise<void>,
     ) => {
-      if (!signer || !data || !stateIndex || !pollData) {
+      if (!signer || !stateIndex || !pollData) {
         return;
       }
 
@@ -142,11 +225,12 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
       );
 
       setIsLoading(true);
+
       await publishBatch({
         messages,
         maciAddress: config.maciAddress!,
-        publicKey: data.publicKey,
-        privateKey: data.privateKey,
+        publicKey: maciPubKey!,
+        privateKey: maciPrivKey!,
         pollId: BigInt(pollData.id),
         signer,
       })
@@ -162,40 +246,79 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     [
       stateIndex,
       pollData?.id,
-      data?.publicKey,
-      data?.privateKey,
+      maciPubKey,
+      maciPrivKey,
       signer,
       setIsLoading,
       setError,
     ],
   );
 
-  /// check if the user already registered
   useEffect(() => {
-    if (!isConnected || !signer || !data?.publicKey || !address || isLoading) {
+    if (isDisconnected) {
+      setMaciPrivKey(undefined);
+      setMaciPubKey(undefined);
+      localStorage.removeItem("maciPrivKey");
+      localStorage.removeItem("maciPubKey");
+    }
+  }, [isDisconnected]);
+
+  useEffect(() => {
+    generateKeypair().catch(console.error);
+  }, [generateKeypair]);
+
+  useEffect(() => {
+    if (!maciPubKey || user.data) {
       return;
     }
 
-    isRegisteredUser({
-      maciPubKey: data.publicKey,
-      maciAddress: config.maciAddress!,
-      startBlock: config.maciStartBlock,
-      signer,
-    })
-      .then(({ isRegistered: registered, voiceCredits, stateIndex: index }) => {
-        setIsRegistered(registered);
-        setStateIndex(index);
-        setInitialVoiceCredits(Number(voiceCredits));
+    user.refetch().catch(console.error);
+  }, [maciPubKey, user]);
+
+  /// check if the user already registered
+  useEffect(() => {
+    if (!isConnected || !signer || !maciPubKey || !address || isLoading) {
+      return;
+    }
+
+    const [account] = user.data?.accounts.slice(-1) ?? [];
+    
+    //console.log("USER ", user)
+    console.log("Here ", config.maciSubgraphUrl);
+    console.log("MACI " + maciPubKey)
+    console.log("Account ", user.data)
+    if (!config.maciSubgraphUrl) {
+      isRegisteredUser({
+        maciPubKey,
+        maciAddress: config.maciAddress!,
+        startBlock: config.maciStartBlock,
+        signer,
       })
-      .catch(console.error);
+        .then(
+          ({ isRegistered: registered, voiceCredits, stateIndex: index }) => {
+            setIsRegistered(registered);
+            setStateIndex(index);
+            setInitialVoiceCredits(Number(voiceCredits));
+          },
+        )
+        .catch(console.error);
+    } else if (account) {
+      
+      const { id, voiceCreditBalance } = account;
+
+      setIsRegistered(true);
+      setStateIndex(id);
+      setInitialVoiceCredits(Number(voiceCreditBalance));
+    }
   }, [
     isLoading,
     isConnected,
     isRegistered,
-    data?.publicKey,
+    maciPubKey,
     address,
     signer,
     stateIndex,
+    user.data,
     setIsRegistered,
     setStateIndex,
     setInitialVoiceCredits,
@@ -208,6 +331,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     }
 
     setIsLoading(true);
+
     Promise.all([
       getPoll({
         maciAddress: config.maciAddress!,
@@ -235,12 +359,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [
-    Boolean(signer),
-    setIsLoading,
-    setTallyData,
-    setPollData,
-  ]);
+  }, [Boolean(signer), setIsLoading, setTallyData, setPollData]);
 
   const value: MaciContextType = {
     isLoading,
@@ -253,7 +372,9 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     error,
     pollData,
     tallyData,
+    maciPubKey,
     onSignup,
+    onZupassSignup,
     onVote,
   };
 

@@ -10,11 +10,15 @@ import { toast } from "sonner";
 
 import { Button } from "./ui/Button";
 import { Chip } from "./ui/Chip";
-import { useBallot } from "~/features/ballot/hooks/useBallot";
+import { useBallot } from "~/contexts/Ballot";
 import { useLayoutOptions } from "~/layouts/BaseLayout";
 import { useMaci } from "~/contexts/Maci";
+import { ethers } from "ethers";
 import type { Address } from "viem";
 import { config } from "~/config";
+import { zuAuthPopup } from "@pcd/zuauth";
+import { ZKEdDSAEventTicketPCDPackage } from "@pcd/zk-eddsa-event-ticket-pcd";
+import { generateWitness } from "~/utils/pcd";
 
 const useBreakpoint = createBreakpoint({ XL: 1280, L: 768, S: 350 });
 
@@ -98,15 +102,55 @@ const ConnectedDetails = ({
 }) => {
   const { data: ballot } = useBallot();
   const ballotSize = (ballot?.votes ?? []).length;
-  const { isLoading, isRegistered, isEligibleToVote, onSignup } = useMaci();
+  const { isLoading, isRegistered, isEligibleToVote, onZupassSignup } = useMaci();
 
   const { showBallot } = useLayoutOptions();
 
   const onError = useCallback(() => toast.error("Signup error"), []);
-  const handleSignup = useCallback(
-    () => onSignup(onError),
-    [onSignup, onError],
-  );
+
+  //TODO: add user address as watermark
+  //TODO: add this eventId and eventName as env. variable
+  //TODO: Allow any user to see the signup button and remove the attestation requirement
+  const watermark = "0xF4FFaa5bF781903e7187Db65Ee9Bd82153b3F7C1"
+  const config = [
+    {
+      "pcdType": "eddsa-ticket-pcd",
+      "publicKey": [
+        "1ebfb986fbac5113f8e2c72286fe9362f8e7d211dbc68227a468d7b919e75003",
+        "10ec38f11baacad5535525bbe8e343074a483c051aa1616266f3b1df3fb7d204"
+      ],
+      "eventId": "d2ce5bb2-99a3-5a61-b7e6-1cd46d2ee00d",
+      "eventName": "PizzaParty",
+    }
+  ]
+
+  const handleSignup = async () => {
+  const result = await zuAuthPopup({
+    fieldsToReveal: {
+        revealTicketId: true,
+        },
+        watermark,
+        config
+      })
+      console.log(watermark);
+
+      console.log("Zupass Result: ", result)
+      if(result.type === "pcd") {
+          try {
+            const jsonPCD = JSON.parse(result.pcdStr)
+            const pcd = await ZKEdDSAEventTicketPCDPackage.deserialize(jsonPCD.pcd)
+            const proof = generateWitness(pcd)
+            const encoder = ethers.AbiCoder.defaultAbiCoder();
+            const data = encoder.encode(
+                ["uint256[2]", "uint256[2][2]", "uint256[2]", "uint256[38]"],
+                [proof._pA, proof._pB, proof._pC, proof._pubSignals],
+            ) as `0x${string}`;
+            await onZupassSignup(onError, data)
+          } catch (e) {
+            console.log("Failed", e)
+          }
+      }
+  }
 
   return (
     <div>
