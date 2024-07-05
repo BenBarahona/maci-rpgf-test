@@ -229,7 +229,7 @@ export function ApplicationForm({ address = "" }) {
             )}
           />
         </FormSection>
-
+        
         <FormSection
           title="Funding sources"
           description="From what sources have you received funding?"

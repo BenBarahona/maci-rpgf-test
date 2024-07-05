@@ -55,12 +55,21 @@ export const eas = {
   },
 };
 
+// export const impactCategories = {
+//   ETHEREUM_INFRASTRUCTURE: { label: "Ethereum Infrastructure" },
+//   OPEN_SOURCE: { label: "Web3 Open Source Software" },
+//   COMMUNITY_EDUCATION: { label: "Web3 Community & Education" },
+//   COLLECTIVE_GOVERNANCE: { label: "Collective Governance" },
+//   OP_STACK: { label: "OP Stack" },
+//   DEVELOPER_ECOSYSTEM: { label: "Developer Ecosystem" },
+//   END_USER_EXPERIENCE_AND_ADOPTION: { label: "End user UX" },
+// } as const;
 export const impactCategories = {
-  ETHEREUM_INFRASTRUCTURE: { label: "Ethereum Infrastructure" },
-  OPEN_SOURCE: { label: "Web3 Open Source Software" },
-  COMMUNITY_EDUCATION: { label: "Web3 Community & Education" },
-  COLLECTIVE_GOVERNANCE: { label: "Collective Governance" },
-  OP_STACK: { label: "OP Stack" },
-  DEVELOPER_ECOSYSTEM: { label: "Developer Ecosystem" },
-  END_USER_EXPERIENCE_AND_ADOPTION: { label: "End user UX" },
-} as const;
+    ETHEREUM: { label: "Adopción Ethereum, Blockchain / Web3" },
+    INNOVACION: { label: "Innovacion" },
+    TECNOLOGIAS_EMERGENTES: { label: "Uso de tecnologias emergentes" },
+    COLLECTIVE_GOVERNANCE: { label: "Salud" },
+    ARTE_CREATIVIDAD: { label: "Arte y Creatividad" },
+    EDUCACION: { label: "Educacion" },
+    ANIMAL: { label: "Animales" },
+  } as const;

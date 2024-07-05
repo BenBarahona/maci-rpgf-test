@@ -30,9 +30,7 @@ export const MaciContext = createContext<MaciContextType | undefined>(
 );
 
 export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
-  const data = { 
-    publicKey:"0x57c3B8841AD3517920e4cCCE09A11B19276F44c2"
-  };
+  
   const signer = useEthersSigner();
   const { address, isConnected, isDisconnected } = useAccount();
 
@@ -56,7 +54,7 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     { enabled: Boolean(maciPubKey && config.maciSubgraphUrl) },
   );
 
-  console.log("USER " + user)
+  //console.log("USER ", user)
 
   const attestations = api.voters.approvedAttestations.useQuery({
     address,
@@ -72,10 +70,11 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     return attestation?.id;
   }, [attestations]);
 
-  const isEligibleToVote = useMemo(
-    () => Boolean(attestationId) && Boolean(address),
-    [attestationId, address],
-  );
+  // const isEligibleToVote = useMemo(
+  //   () => Boolean(attestationId) && Boolean(address),
+  //   [attestationId, address],
+  // );
+  const isEligibleToVote = true;
 
   // on load get the key pair from local storage and set the signature message
   useEffect(() => {
@@ -154,14 +153,13 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     ],
   );
 
-  const checkIsRegistered = useCallback(
-    async(onError: () => void) => {
-    }
-  )
-
   const onZupassSignup = useCallback(
     async (onError: () => void, proof: `0x${string}`) => {
-      if (!data?.publicKey || !signer || !proof) {
+      console.log("Address ", address);
+      console.log("MaciPubKey ", maciPubKey);
+      console.log("MaciAddress", config.maciAddress);
+
+      if (!maciPubKey || !signer || !proof) {
         return;
       }
 
@@ -284,9 +282,11 @@ export const MaciProvider: React.FC<MaciProviderProps> = ({ children }) => {
     }
 
     const [account] = user.data?.accounts.slice(-1) ?? [];
+    
+    //console.log("USER ", user)
     console.log("Here ", config.maciSubgraphUrl);
     console.log("MACI " + maciPubKey)
-    console.log("Account " + user.data)
+    console.log("Account ", user.data)
     if (!config.maciSubgraphUrl) {
       isRegisteredUser({
         maciPubKey,

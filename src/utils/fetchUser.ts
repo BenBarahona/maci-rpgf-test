@@ -49,5 +49,8 @@ export async function fetchUser(publicKey: [bigint, bigint]) {
         `id: "${publicKey[0]} ${publicKey[1]}"`,
       ),
     }),
-  }).then((response: GraphQLResponse) => response.data?.user);
+  }).then((response: GraphQLResponse) => { 
+    //console.log("FETCH RESPONSE ", response);
+    return response.data?.user
+  });
 }

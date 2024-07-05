@@ -42,6 +42,8 @@ export const env = createEnv({
       "base",
       "baseGoerli",
       "localhost",
+      "scrollSepolia",
+      "scroll"
     ]),
     NEXT_PUBLIC_SIGN_STATEMENT: z.string().optional(),
 
