@@ -57,11 +57,11 @@ function BallotAllocationForm() {
 
   return (
     <div>
-      <h1 className="mb-2 text-2xl font-bold">Review your ballot</h1>
+      <h1 className="mb-2 text-2xl font-bold">Revisa tu boleta</h1>
       <p className="mb-6">
-        Once you have reviewed your vote allocation, you can submit your ballot.
+        Una vez que haya revisado su asignación de votos, puede enviar su boleta.
       </p>
-      <div className="mb-2 justify-between sm:flex">
+      <div className="mb-2 justify-between sm:flex">Revisa tu boleta
         {ballot?.votes?.length ? <ClearBallot /> : null}
       </div>
       <div className="relative rounded-2xl border border-gray-300 dark:border-gray-800">
@@ -78,7 +78,7 @@ function BallotAllocationForm() {
         </div>
 
         <div className="flex h-16 items-center justify-between rounded-b-2xl border-t border-gray-300 px-8 py-4 text-lg font-semibold dark:border-gray-800">
-          <div>Total votes in ballot</div>
+          <div>Votos totales en la boleta</div>
           <div className="flex items-center gap-2">
             <TotalAllocation />
           </div>
@@ -105,18 +105,17 @@ function ClearBallot() {
   return (
     <>
       <Button variant="outline" onClick={() => setOpen(true)}>
-        Remove all projects from ballot
+        Eliminar todos los proyectos de la boleta
       </Button>
 
       <Dialog
-        title="Are you sure?"
+        title="Estas seguro?"
         size="sm"
         isOpen={isOpen}
         onOpenChange={setOpen}
       >
         <p className="mb-6 leading-6">
-          This will empty your ballot and remove all the projects you have
-          added.
+          Esto vaciará tu boleta y eliminará todos los proyectos que tienes agregado.
         </p>
         <div className="flex justify-end">
           <Button
@@ -124,7 +123,7 @@ function ClearBallot() {
             // disabled={isPending}
             onClick={handleClearBallot}
           >
-            Yes I'm sure
+            Si, continuar
           </Button>
         </div>
       </Dialog>
@@ -135,14 +134,13 @@ function ClearBallot() {
 const EmptyBallot = () => (
   <div className="flex flex-1 items-center justify-center">
     <div className=" max-w-[360px] space-y-4">
-      <h3 className="text-center text-lg font-bold">Your ballot is empty</h3>
+      <h3 className="text-center text-lg font-bold">Su boleta está vacía</h3>
       <p className="text-center text-sm text-gray-700">
-        Your ballot currently doesn&apos;t have any projects added. Browse
-        through the available projects.
+        Su boleta actualmente no tiene ningún proyecto agregado. Navega por los proyectos disponibles.
       </p>
       <div className="flex items-center justify-center gap-3">
         <Button as={Link} href={"/projects"}>
-          View projects
+          Ver proyectos
         </Button>
       </div>
     </div>

@@ -222,7 +222,7 @@ const SignupButton = ({
 }: ComponentPropsWithRef<typeof Chip> & { loading: boolean }): JSX.Element => {
   return (
     <Chip className="gap-2" disabled={loading} {...props}>
-      {loading ? "Loading..." : "Sign up"}
+      {loading ? "Cargando..." : "Validar Votante"}
     </Chip>
   );
 };

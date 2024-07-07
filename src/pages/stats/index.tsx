@@ -66,7 +66,7 @@ function Stats() {
   }, [projects, projectsResults]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Cargando...</div>;
   }
 
   if (!pollData && !isConnected) {

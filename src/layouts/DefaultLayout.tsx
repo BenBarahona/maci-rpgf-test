@@ -41,12 +41,13 @@ export const Layout = ({ children, ...props }: Props) => {
       ...[
         {
           href: "/applications",
-          children: "Applications",
+          children: "Aplicaciones",
         },
-        {
-          href: "/voters",
-          children: "Voters",
-        },
+        //TODO: Conditional, do not add voters tab if using zupass
+        // {
+        //   href: "/voters",
+        //   children: "Voters",
+        // },
       ],
     );
   }

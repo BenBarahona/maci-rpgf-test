@@ -19,6 +19,6 @@ export const Spinner = (props: ComponentProps<"div">) => (
         fill="currentFill"
       />
     </svg>
-    <span className="sr-only">Loading...</span>
+    <span className="sr-only">Cargando...</span>
   </div>
 );

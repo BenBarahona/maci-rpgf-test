@@ -84,7 +84,7 @@ function BallotOverview() {
       </BallotSection>
       {address && isRegistered && (
         <>
-          <BallotHeader>Your ballot</BallotHeader>
+          <BallotHeader>Tu boleta</BallotHeader>
           <BallotSection title="Proyectos agregados:">
             <div>
               <span className="text-gray-900 dark:text-gray-300">
@@ -96,7 +96,7 @@ function BallotOverview() {
           <BallotSection
             title={
               <div className="flex justify-between">
-                {config.tokenName} allocated:
+                {config.tokenName} asignado:
                 <div
                   className={clsx("text-gray-900 dark:text-gray-300", {
                     ["text-primary-500"]: sum > initialVoiceCredits,
@@ -173,12 +173,12 @@ const SubmitBallotButton = ({ disabled = false }) => {
 
   const messages = {
     signing: {
-      title: "Firmar biketa",
+      title: "Firmar boleta",
       instructions:
         "Confirme las transacciones en su wallet para enviar su boleta.",
     },
     submitting: {
-      title: "Submit ballot",
+      title: "Enviar Boleta",
       instructions:
         "Una vez que envíe su boleta, no podrá cambiarla. Si estás listo, ¡adelante y envíalo!",
     },
@@ -207,7 +207,7 @@ const SubmitBallotButton = ({ disabled = false }) => {
         disabled={disabled}
         onClick={async () => setOpen(true)}
       >
-        Submit ballot
+        Enviar boleta
       </Button>
       <Dialog size="sm" isOpen={isOpen} onOpenChange={setOpen} title={title}>
         <p className="pb-8">{instructions}</p>
@@ -221,14 +221,14 @@ const SubmitBallotButton = ({ disabled = false }) => {
             className="flex-1"
             onClick={() => setOpen(false)}
           >
-            Back
+            Atras
           </Button>
           <Button
             className="flex-1"
             variant="primary"
             onClick={() => submit.mutate()}
           >
-            Submit ballot
+            Enviar boleta
           </Button>
         </div>
       </Dialog>

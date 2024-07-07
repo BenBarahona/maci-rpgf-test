@@ -1,7 +1,7 @@
 import * as wagmiChains from "wagmi/chains";
 
 export const metadata = {
-  title: "Voting Test",
+  title: "ETH TGU: Trust Round",
   description: "Open-source Retro Public Goods Funding platform",
   url: "https://easy-retro-pgf.vercel.app",
   image: "/api/og",
@@ -9,6 +9,7 @@ export const metadata = {
 
 export const config = {
   //https://23em63tcsc5dd4g2.public.blob.vercel-storage.com/pizza-party.jpeg
+  //logoUrl: "https://23em63tcsc5dd4g2.public.blob.vercel-storage.com/eth_tgu/header_trustround-6sFSHMMXVYRU1iAKOokJ0ClgRBZ00Q.png",
   logoUrl: "",
   pageSize: 3 * 4,
   // TODO: temp solution until we come up with solid one
