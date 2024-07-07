@@ -89,18 +89,18 @@ function Stats() {
 
   return (
     <div>
-      <h3 className="text-lg font-bold">Top Projects</h3>
+      <h3 className="text-lg font-bold">Proyectos Sobresalientes</h3>
       <div className="mb-8 h-[400px] rounded-xl bg-white text-black">
         <ResultsChart data={chartData} />
       </div>
 
       <div className="grid gap-2 md:grid-cols-3">
-        <Stat title="Projects applied">{count.data?.count}</Stat>
-        <Stat title="Projects voted for">{Object.keys(projects).length}</Stat>
-        <Stat title="People Voting">
+        <Stat title="Proyectos aplicados">{count.data?.count}</Stat>
+        <Stat title="Projects votados">{Object.keys(projects).length}</Stat>
+        <Stat title="Personas Votando">
           {pollData?.numSignups ? Number(pollData?.numSignups) - 1 : 0}
         </Stat>
-        <Stat title="Average votes per project">
+        <Stat title="Promedio de votos por proyecto">
           {formatNumber(averageVotes)}
         </Stat>
       </div>

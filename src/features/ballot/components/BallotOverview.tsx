@@ -47,9 +47,9 @@ function BallotOverview() {
   if (appState === EAppState.RESULTS)
     return (
       <div className="flex flex-col items-center gap-2 pt-8 ">
-        <BallotHeader>Results are live!</BallotHeader>
+        <BallotHeader>Los resultados están listos!</BallotHeader>
         <Button as={Link} href={"/projects/results"}>
-          Go to results
+          Ir a resultados
         </Button>
       </div>
     );
