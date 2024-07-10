@@ -4,7 +4,7 @@ export const metadata = {
   title: "ETH TGU: Trust Round",
   description: "Open-source Retro Public Goods Funding platform",
   url: "https://easy-retro-pgf.vercel.app",
-  image: "/api/og",
+  image: "https://23em63tcsc5dd4g2.public.blob.vercel-storage.com/eth_tgu/test/TrustRoundBanner.jpeg",
 };
 
 export const config = {
@@ -31,6 +31,8 @@ export const config = {
   maciStartBlock: Number(process.env.NEXT_PUBLIC_MACI_START_BLOCK ?? 0),
   maciSubgraphUrl: process.env.NEXT_PUBLIC_MACI_SUBGRAPH_URL ?? "",
   tallyUrl: process.env.NEXT_PUBLIC_TALLY_URL,
+  zupassEventId: process.env.NEXT_PUBLIC_ZUPASS_EVENT_ID,
+  zupassEventName: process.env.NEXT_PUBLIC_ZUPASS_EVENT_NAME,
   zupassAuth: true, //TODO: Read from env file
 };
 

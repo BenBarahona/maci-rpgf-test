@@ -108,19 +108,19 @@ const ConnectedDetails = ({
 
   const onError = useCallback(() => toast.error("Signup error"), []);
 
-  //TODO: add user address as watermark
-  //TODO: add this eventId and eventName as env. variable
   //TODO: Allow any user to see the signup button and remove the attestation requirement
-  const watermark = "0xF4FFaa5bF781903e7187Db65Ee9Bd82153b3F7C1"
-  const config = [
+  const eventId = config.zupassEventId;
+  const eventName = config.zupassEventName;
+  const watermark = account.address
+  const configs = [
     {
       "pcdType": "eddsa-ticket-pcd",
       "publicKey": [
         "1ebfb986fbac5113f8e2c72286fe9362f8e7d211dbc68227a468d7b919e75003",
         "10ec38f11baacad5535525bbe8e343074a483c051aa1616266f3b1df3fb7d204"
       ],
-      "eventId": "d2ce5bb2-99a3-5a61-b7e6-1cd46d2ee00d",
-      "eventName": "PizzaParty",
+      eventId,
+      eventName
     }
   ]
 
@@ -130,7 +130,7 @@ const ConnectedDetails = ({
         revealTicketId: true,
         },
         watermark,
-        config
+        config: configs
       })
       console.log(watermark);
 
