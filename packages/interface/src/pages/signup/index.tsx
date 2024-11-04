@@ -15,6 +15,7 @@ import { FAQList } from "~/features/signup/components/FaqList";
 import { Layout } from "~/layouts/DefaultLayout";
 import { useAppState } from "~/utils/state";
 import { EAppState } from "~/utils/types";
+import Image from "next/image";
 
 const SignupPage = (): JSX.Element => {
   const { isConnected } = useAccount();
@@ -30,7 +31,9 @@ const SignupPage = (): JSX.Element => {
           {config.eventName}
         </Heading>
 
-        <Heading as="h2" className="max-w-screen-lg text-center" size="4xl">
+        <Image alt="logo" className="dark:invert" height="35" src={config.bannerUrl} width={400} />
+
+        <Heading as="h2" className="max-w-screen-lg text-center" size="3xl">
           {config.roundId.toUpperCase()}
         </Heading>
 

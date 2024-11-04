@@ -51,15 +51,15 @@ export const EligibilityDialog = (): JSX.Element | null => {
       <Dialog
         button="secondary"
         buttonAction={handleGoToCreateApp}
-        buttonName="Create Application"
+        buttonName="Crear Propuesta"
         description={
           <div className="flex flex-col gap-4">
-            <p>Start creating your own application now!</p>
+            <p>¡Empieza a crear tu propia propuesta ahora!</p>
           </div>
         }
         isOpen={openDialog}
         size="sm"
-        title="You're all set to apply"
+        title="Ya estas listo para aplicar"
         onOpenChange={handleCloseDialog}
       />
     );

@@ -99,12 +99,12 @@ export const FAQList = (): JSX.Element => (
     <li>Equipamiento tecnológico para espacios universitarios orientados a actividades académicas relacionadas con blockchain, web3 o Ethereum.</li>
     <li>Subvenciones de investigación relacionadas con Ethereum y blockchain y actividades educativas.</li>
     <li>Proyectos de impacto social que aborden áreas como salud, medio ambiente, paz y servicios comunitarios, tanto dentro como fuera de los entornos universitarios.</li>
-    <li>Espacios o propuestas universitarias innovadoras: financiación para equipamiento o establecimiento de espacios que serán utilizados durante al menos un año para actividades de Web3 y blockchain por estudiantes y docentes.</li>
+    <li>Espacios o propuestas universitarias innovadoras: financiación para equipamiento o establecimiento de espacios que serán utilizados durante al menos un año para actividades de Web3 y blockchain por estudiantes y docentes. Para estas propuestas, las universidades deben comprometerse a proporcionar sostenibilidad y apoyo durante un mínimo de 2 años.</li>
   </ul>
 
   <h3 className="text-2xl font-semibold">Criterios</h3>
   <ul className="list-disc ml-5 space-y-2">
-    <li>Los miembros de los proyectos participantes deben ser parte de la comunidad universitaria.</li>
+    <li>Los miembros de los proyectos participantes deben ser parte de la comunidad universitaria (estudiantes, profesores, administradores, etc. con afiliación actual a la universidad; los ex-alumnos no son elegibles).</li>
     <li>Cada proyecto debe tener al menos dos miembros en el equipo.</li>
     <li>Los proyectos deben desarrollarse en Tegucigalpa.</li>
     <li>Todas las propuestas deben estar dispuestas a ejecutar los fondos dentro de los 6 meses posteriores a su recepción y aceptar los términos de la Ronda Académica antes del desembolso.</li>
@@ -116,29 +116,29 @@ export const FAQList = (): JSX.Element => (
     Puedes acceder al formulario de aplicación aquí. (Disponible a partir del 4 de noviembre)
   </p>
   <p>
-    El equipo core de Ethereum Tegucigalpa verificará que las propuestas cumplan con los criterios de la Ronda tan pronto como sean presentadas y permitirá que un máximo de 5 proyectos pase a la fase de votación. Los organizadores enviarán un correo electrónico de confirmación de la recepción de la propuesta. Además, se enviará un correo electrónico para informar si la propuesta continúa dentro del proceso de acuerdo con los criterios de elegibilidad.
+    El equipo core de Ethereum Tegucigalpa verificará que las propuestas cumplan con los criterios de la Ronda tan pronto sean presentadas. Se permitirá que un máximo de 5 proyectos pase a la fase de votación, siguiendo el principio de &quot;primero en llegar, primero en ser atendido&quot;. Los organizadores enviarán un correo electrónico confirmando la recepción de la propuesta e informarán si esta continúa en el proceso según los criterios de elegibilidad.
   </p>
   <p>
-    Para la fase de votación, cada votante tendrá 200 puntos para distribuir entre los proyectos participantes. Al final del proceso de evaluación, los fondos se distribuirán de acuerdo con el porcentaje de la suma total de las puntuaciones obtenidas por cada proyecto.
+    En la fase de votación, cada votante dispondrá de 200 puntos para distribuir entre los proyectos participantes. Los votantes serán miembros activos de la comunidad Ethereum Tegucigalpa que se comprometerán a cumplir las pautas de evaluación.  Al finalizar la evaluación, los fondos se distribuirán proporcionalmente según el porcentaje de puntos obtenidos por cada proyecto.
   </p>
   <p>
-    Una vez finalizada la votación y asignados los fondos a todos los proyectos, los organizadores informarán a los proyectos participantes sobre los fondos que recibirán y enviarán un formulario de cumplimiento que deberá completarse antes del desembolso.
+   Concluida la votación y asignación de fondos, los organizadores notificarán a los proyectos participantes sobre los montos que recibirán. Enviarán un formulario de cumplimiento que deberá completarse antes del desembolso, incluyendo un resumen de los resultados esperados en un plazo de 6 meses y un comprobante de afiliación a una universidad en Tegucigalpa (como fotografías de carnés estudiantiles, de empleados o matrículas). Posteriormente, Ethereum Tegucigalpa transferirá los fondos designados a la billetera de cada proyecto.
   </p>
 
   <h3 className="text-2xl font-semibold">Pautas de Evaluación</h3>
   <ul className="list-disc ml-5 space-y-2">
-    <li>Impacto e innovación del alcance del proyecto: un cambio positivo significativo dentro de la comunidad académica o la sociedad en general.</li>
+    <li>Impacto e innovación del alcance del proyecto:  un cambio positivo significativo dentro de la comunidad académica o la sociedad en general. Considerar cuán innovador es el enfoque, si aborda una necesidad urgente y si tiene el potencial de inspirar una mayor adopción de blockchain o investigación en el ámbito académico.</li>
     <li>Claridad de la propuesta: objetivos bien definidos y actividades planificadas.</li>
     <li>Capacidad del equipo: los miembros poseen las habilidades y experiencia necesarias para llevar a cabo las actividades propuestas.</li>
     <li>Integración de tecnología blockchain y Ethereum: incorporación de blockchain dentro del desarrollo del proyecto o inclusión de actividades educativas y de incorporación relacionadas con blockchain o Ethereum.</li>
-    <li>Colaboraciones y sostenibilidad: propuesta orientada a un compromiso a largo plazo con el trabajo relacionado con blockchain o Ethereum.</li>
+    <li>Colaboraciones y sostenibilidad: propuesta orientada a un compromiso a largo plazo con el trabajo relacionado con blockchain o Ethereum, o disposición a asociarse con Ethereum Tegucigalpa u otros actores en el ecosistema de Ethereum.</li>
   </ul>
 
   <h3 className="text-2xl font-semibold">Compromisos y entregables</h3>
   <h4 className="text-xl font-semibold">Ethereum Tegucigalpa hacia los Proyectos</h4>
   <ul className="list-disc ml-5 space-y-2">
     <li>Se compromete a transferir los fondos a la billetera del proyecto para el 15 de diciembre.</li>
-    <li>Colaborar en la publicación de los avances y resultados de los proyectos.</li>
+    <li>Colaborar en la publicación de los avances y resultados de los proyectos, una vez que sean enviados por parte de cada proyecto.</li>
     <li>Asesorar, en caso de que sea necesario, sobre la ejecución del proyecto para garantizar el cumplimiento de resultados en los tiempos establecidos.</li>
   </ul>
   <h4 className="text-xl font-semibold">Proyectos hacia Ethereum Tegucigalpa</h4>

@@ -13,6 +13,7 @@ import { EAppState } from "~/utils/types";
 import { ConnectButton } from "./ConnectButton";
 import { IconButton } from "./ui/Button";
 import { Logo } from "./ui/Logo";
+import { Button } from "./ui/Button";
 
 interface INavLinkProps extends ComponentPropsWithRef<typeof Link> {
   isActive: boolean;
@@ -109,7 +110,9 @@ const Header = ({ navLinks }: IHeaderProps) => {
             variant="ghost"
             onClick={handleChangeTheme}
           />
-
+          {/* <Button suppressHydrationWarning variant="secondary" onClick={openConnectModal}>
+              {"Como Votar"}
+          </Button> */}
           <ConnectButton />
         </div>
 

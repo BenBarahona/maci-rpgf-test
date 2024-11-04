@@ -69,6 +69,7 @@ export const getRPCURL = (): string | undefined => {
 };
 
 export const config = {
+  bannerUrl: "/academia-logo.jpeg",
   logoUrl: "/ethereum_tgu.png",
   pageSize: 3 * 4,
   // TODO: temp solution until we come up with solid one
