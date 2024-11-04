@@ -32,14 +32,14 @@ export const Layout = ({ children = null, ...props }: ILayoutProps): JSX.Element
     const links = [
       {
         href: "/projects",
-        children: "Projects",
+        children: "Proyectos",
       },
     ];
 
     if (appState === EAppState.VOTING && isRegistered) {
       links.push({
         href: "/ballot",
-        children: "My Ballot",
+        children: "Mi Boleta",
       });
     }
 
@@ -62,7 +62,7 @@ export const Layout = ({ children = null, ...props }: ILayoutProps): JSX.Element
         ...[
           {
             href: "/applications",
-            children: "Applications",
+            children: "Aplicaciones",
           },
         ],
       );

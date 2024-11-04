@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { es } from "date-fns/locale"
 import Link from "next/link";
 import { useAccount } from "wagmi";
 
@@ -34,11 +35,11 @@ const SignupPage = (): JSX.Element => {
         </Heading>
 
         <p className="flex max-w-screen-md gap-2 text-center text-xl dark:text-gray-400">
-          <span>{config.startsAt && format(config.startsAt, "d MMMM, yyyy")}</span>
+          <span>{config.startsAt && format(config.startsAt, "d MMMM, yyyy", {locale: es})}</span>
 
           <span>-</span>
 
-          <span>{config.resultsAt && format(config.resultsAt, "d MMMM, yyyy")}</span>
+          <span>{config.resultsAt && format(config.resultsAt, "d MMMM, yyyy", { locale: es})}</span>
         </p>
 
         {!isConnected && <ConnectButton />}

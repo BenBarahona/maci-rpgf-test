@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { es } from "date-fns/locale"
 import Image from "next/image";
 import { tv } from "tailwind-variants";
 
@@ -53,12 +54,12 @@ function formatDateString({ start, end }: { start: Date; end: Date }): string {
   const fullFormat = "d MMM yyyy";
 
   if (start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear()) {
-    return `${start.getDate()} - ${format(end, fullFormat)}`;
+    return `${start.getDate()} - ${format(end, fullFormat, { locale: es })}`;
   }
 
   if (start.getFullYear() === end.getFullYear()) {
-    return `${format(start, "d MMM")} - ${format(end, fullFormat)}`;
+    return `${format(start, "d MMM", { locale: es })} - ${format(end, fullFormat, { locale: es })}`;
   }
 
-  return `${format(start, fullFormat)} - ${format(end, fullFormat)}`;
+  return `${format(start, fullFormat, { locale: es })} - ${format(end, fullFormat, { locale: es })}`;
 }

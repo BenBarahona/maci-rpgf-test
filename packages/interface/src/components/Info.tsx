@@ -34,25 +34,25 @@ export const Info = ({ size, showVotingInfo = false }: InfoProps): JSX.Element =
 
   const steps = [
     {
-      label: "application",
+      label: "Propuestas",
       state: EAppState.APPLICATION,
       start: config.startsAt,
       end: config.registrationEndsAt,
     },
     {
-      label: "voting",
+      label: "Votación",
       state: EAppState.VOTING,
       start: config.registrationEndsAt,
       end: votingEndsAt,
     },
     {
-      label: "tallying",
+      label: "Conteo",
       state: EAppState.TALLYING,
       start: votingEndsAt,
       end: config.resultsAt,
     },
     {
-      label: "results",
+      label: "Resultados",
       state: EAppState.RESULTS,
       start: config.resultsAt,
       end: config.resultsAt,

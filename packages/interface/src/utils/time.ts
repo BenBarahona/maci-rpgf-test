@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import { es } from "date-fns/locale"
 
 export const calculateTimeLeft = (date: Date): [number, number, number, number] => {
   const sec = Math.floor((date.getTime() - Date.now()) / 1000);
@@ -9,4 +10,4 @@ export const calculateTimeLeft = (date: Date): [number, number, number, number] 
   return [days % 365, hrs % 24, min % 60, sec % 60];
 };
 
-export const formatDate = (date: Date | number): string => format(date, "dd MMM yyyy HH:mm");
+export const formatDate = (date: Date | number): string => format(date, "dd MMM yyyy HH:mm", {locale: es});

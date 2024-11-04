@@ -1,7 +1,7 @@
 import * as wagmiChains from "wagmi/chains";
 
 export const metadata = {
-  title: "MACI PLATFORM",
+  title: "Academia Round - ETH TGU",
   description: "Open-source Retro Public Goods Funding platform with MACI for private on chain voting/",
   url: "https://maci-platform.vercel.app",
   image: "/api/og",
@@ -69,7 +69,7 @@ export const getRPCURL = (): string | undefined => {
 };
 
 export const config = {
-  logoUrl: "/Logo.svg",
+  logoUrl: "/ethereum_tgu.png",
   pageSize: 3 * 4,
   // TODO: temp solution until we come up with solid one
   // https://github.com/privacy-scaling-explorations/maci-platform/issues/31
