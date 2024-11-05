@@ -162,7 +162,13 @@ export const FAQList = (): JSX.Element => (
             </a>
           </p>
           <p>
-            Instagram, X, Discord, TG: @ethereumtgu
+            <a href="https://www.instagram.com/ethereumtgu" className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>{", "}
+            <a href="https://www.x.com/ethereumtgu_" className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+              X
+            </a>{", "}
+            Discord, TG: @ethereumtgu
           </p>
         </div>
       }
