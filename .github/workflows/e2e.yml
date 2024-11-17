@@ -2,8 +2,8 @@ name: E2E
 on:
   workflow_dispatch:
 
-  schedule:
-    - cron: "0 9 * * *" # run every day at 9:00 UTC
+  #schedule:
+    #- cron: "0 9 * * *" # run every day at 9:00 UTC
 
   push:
     branches: [main]
