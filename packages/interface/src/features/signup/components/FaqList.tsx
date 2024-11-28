@@ -17,7 +17,7 @@ export const FAQList = (): JSX.Element => (
           <a href="https://ethereum.org/es/learn/" className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
               Ethereum
           </a> 
-          &nbsp;como “Bienes Públicos”. Esta quinta edición de financiamiento esta enfocada en las propuestas de las comunidades universitarias en Tegucigalpa. La convocatoria está abierta a estudiantes y profesores para presentar proyectos en investigación, educación, bien social e iniciativas académicas que fomenten la adopción de blockchain. La convocatoria estará abierta durante noviembre 2024, del total de propuestas, algunas serán pre-seleccionadas para asignar entre los proyectos aprobados $5,000.00 en DAIs, para que puedan ejecutarlos a partir de enero 2025. ¡Queremos ver&nbsp;
+          &nbsp;como “Bienes Públicos”. Esta quinta edición de financiamiento esta enfocada en las propuestas de las comunidades universitarias en Tegucigalpa. La convocatoria está abierta a estudiantes y profesores para presentar proyectos en investigación, educación, bien social e iniciativas académicas que fomenten la adopción de blockchain. La convocatoria estará abierta durante noviembre 2024, del total de propuestas, algunas serán pre-seleccionadas para asignar entre los proyectos aprobados $10,000.00 en DAIs, para que puedan ejecutarlos a partir de enero 2025. ¡Queremos ver&nbsp;
           <a href="https://ethereum.foundation/infinitegarden" className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
             florecer el jardín infinito
           </a> 
@@ -42,22 +42,28 @@ export const FAQList = (): JSX.Element => (
         <div>
           <h4 className="text-xl font-semibold">Noviembre</h4>
           <ul className="list-disc ml-5 space-y-1">
-            <li>4 - Abrir ronda para recibir propuestas de proyectos.</li>
-            <li>1 - 24 - Promoción de la Ronda</li>
-            <li>24 - Fecha límite para la presentación de propuestas.</li>
-            <li>25 - 30 - Evaluar la elegibilidad de las propuestas y votación.</li>
+            <li>1-9 — Mínimo 2 encuentros en universidades</li>
+            <li>1-24 — Promoción en redes sociales y al menos 1 espacio en línea</li>
+            <li>1-23 — Evaluaciones y reuniones individuales</li>
+            <li>1-23 — Configuración de página web</li>
+            <li>10-24 — Invitación a votantes y reunión inicial</li>
+            <li>30 — Fecha límite para presentación de propuestas</li>
+            <li>30-2 (dic.) — Evaluación de elegibilidad para fase de votación</li>
           </ul>
         </div>
         <div>
           <h4 className="text-xl font-semibold">Diciembre</h4>
           <ul className="list-disc ml-5 space-y-1">
-            <li>1-3 - Publicar resultados y solicitar formularios de cumplimiento.</li>
-            <li>3-13 - Desembolso y sesión presencial para proyectos seleccionados.</li>
+            <li>3-7 — Fase de votación</li>
+            <li>13 — Publicación de resultados y solicitud de formularios de cumplimiento</li>
+            <li>3-13 — Desembolso y sesión presencial con proyectos seleccionados</li>
+            <li>3-13 — Evaluación y pruebas de billeteras y offramps</li>
           </ul>
         </div>
         <div>
           <h4 className="text-xl font-semibold">Enero - Junio 2025</h4>
           <p className="ml-5">Seguimiento de proyectos.</p>
+          <p className="ml-5">Publicación de Informes</p>
         </div>
       
         <h3 className="text-2xl font-semibold">Selección de Proyectos</h3>
@@ -66,7 +72,7 @@ export const FAQList = (): JSX.Element => (
           <a href="https://linktr.ee/ethereumtgu_" className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
             Ethereum Tegucigalpa
           </a>
-          , quienes publicarán, asesorarán y verificarán que proyectos son elegibles para los fondos. Una vez seleccionadas las propuestas, 5 miembros de la comunidad Ethereum Tegucigalpa votarán por los proyectos en blockchain para distribuir los fondos. Se seleccionarán entre 3 a 5 proyectos para la adjudicación de fondos.
+          , quienes publicarán, asesorarán y verificarán que proyectos son elegibles para los fondos. Una vez seleccionadas las propuestas, 5 miembros de la comunidad Ethereum Tegucigalpa votarán por los proyectos en blockchain para distribuir los fondos. Se seleccionarán hasta 8 proyectos para la adjudicación de fondos.
         </p>
       </div>        
       }
