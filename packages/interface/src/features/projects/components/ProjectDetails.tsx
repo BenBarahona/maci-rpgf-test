@@ -61,19 +61,24 @@ const ProjectDetails = ({
 
       <div className="my-8 flex flex-col gap-8">
         <p className="text-xl uppercase">
-          <b>Impact statements</b>
+          <b>Información de Proyecto</b>
         </p>
 
         <ProjectDescriptionSection
           contributions={metadata.data?.contributionLinks}
           description={metadata.data?.contributionDescription}
-          title="contributions"
+          title="Plan de trabajo"
         />
 
         <ProjectDescriptionSection
           description={metadata.data?.impactDescription}
           fundings={fundingSources}
-          title="past grants and funding"
+          title="experiencia previa"
+        />
+
+        <ProjectDescriptionSection
+          description={metadata.data?.resultadosEsperados}
+          title="Resultados Esperados & Indicadores de Impacto"
         />
 
         {action}

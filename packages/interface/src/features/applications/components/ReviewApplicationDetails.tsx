@@ -93,9 +93,15 @@ export const ReviewApplicationDetails = (): JSX.Element => {
       <div className="flex flex-col gap-6 dark:text-white">
         <b className="text-lg">Contribution & Impact</b>
 
-        <ValueField required body={application.contributionDescription} title="Contribution description" />
+        <ValueField required body={application.contributionDescription} title="Plan de Trabajo" />
 
-        <ValueField required body={application.impactDescription} title="Impact description" />
+        <ValueField required body={application.impactDescription} title="Experiencia Previa" />
+
+        <ValueField
+          required
+          body={application.resultadosEsperados}
+          title="Resultados Esperados & Indicadores de Impacto"
+        />
 
         <ValueField
           required

@@ -143,11 +143,15 @@ export const ApplicationForm = (): JSX.Element => {
           description="Describe the contribution and impact of your project."
           title="Contribution & Impact"
         >
-          <FormControl required label="Contribution description" name="contributionDescription">
+          <FormControl required label="Plan de Trabajo" name="contributionDescription">
             <Textarea placeholder="What have your project contributed to?" rows={4} />
           </FormControl>
 
-          <FormControl required label="Impact description" name="impactDescription">
+          <FormControl required label="Experiencia Previa" name="impactDescription">
+            <Textarea placeholder="What impact has your project had?" rows={4} />
+          </FormControl>
+
+          <FormControl required label="Resultados Esperados & Indicadores de Impacto" name="resultadosEsperados">
             <Textarea placeholder="What impact has your project had?" rows={4} />
           </FormControl>
 
