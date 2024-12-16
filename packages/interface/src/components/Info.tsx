@@ -31,7 +31,6 @@ interface InfoProps {
 export const Info = ({ size, showVotingInfo = false }: InfoProps): JSX.Element => {
   const { votingEndsAt } = useMaci();
   const appState = useAppState();
-  const tempEndDate = new Date("2024-12-07T23:59:00.000Z");
 
   const steps = [
     {
@@ -44,12 +43,12 @@ export const Info = ({ size, showVotingInfo = false }: InfoProps): JSX.Element =
       label: "Votación",
       state: EAppState.VOTING,
       start: config.registrationEndsAt,
-      end: tempEndDate,
+      end: votingEndsAt,
     },
     {
       label: "Conteo",
       state: EAppState.TALLYING,
-      start: tempEndDate,
+      start: votingEndsAt,
       end: config.resultsAt,
     },
     {
